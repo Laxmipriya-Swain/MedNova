@@ -1,0 +1,35 @@
+2026-06-29 13:06:05,049 -INFO -[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.141.101.44:5000
+2026-06-29 13:06:05,050 -INFO -[33mPress CTRL+C to quit[0m
+2026-06-29 13:06:30,842 -INFO -127.0.0.1 - - [29/Jun/2026 13:06:30] "GET / HTTP/1.1" 200 -
+2026-06-29 13:06:48,833 -INFO -Loading vectorstore for context
+2026-06-29 13:06:48,833 -INFO -intializing ur huggingface model..
+2026-06-29 13:06:54,345 -INFO -Use pytorch device_name: cpu
+2026-06-29 13:06:54,345 -INFO -Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2026-06-29 13:07:01,223 -INFO -Huggingface embedding model load \u2714\ufe0f\u2714\ufe0f
+2026-06-29 13:07:01,223 -INFO -Loading existing vectorstore..
+2026-06-29 13:07:01,235 -INFO -Loading faiss with AVX2 support.
+2026-06-29 13:07:01,236 -INFO -Could not load library with AVX2 support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_avx2'")
+2026-06-29 13:07:01,236 -INFO -Loading faiss.
+2026-06-29 13:07:01,388 -INFO -Successfully loaded faiss.
+2026-06-29 13:07:01,497 -INFO -Loading LLM from Groq.........
+2026-06-29 13:07:02,797 -INFO -LLM loaded successfully from groq....
+2026-06-29 13:07:02,798 -INFO -Successfully created the QA chain
+2026-06-29 13:07:04,261 -INFO -HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-29 13:07:04,302 -INFO -127.0.0.1 - - [29/Jun/2026 13:07:04] "[32mPOST / HTTP/1.1[0m" 302 -
+2026-06-29 13:07:04,316 -INFO -127.0.0.1 - - [29/Jun/2026 13:07:04] "GET / HTTP/1.1" 200 -
+2026-06-29 13:12:39,108 -INFO -Loading vectorstore for context
+2026-06-29 13:12:39,109 -INFO -intializing ur huggingface model..
+2026-06-29 13:12:39,121 -INFO -Use pytorch device_name: cpu
+2026-06-29 13:12:39,121 -INFO -Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2026-06-29 13:12:47,906 -INFO -Huggingface embedding model load \u2714\ufe0f\u2714\ufe0f
+2026-06-29 13:12:47,907 -INFO -Loading existing vectorstore..
+2026-06-29 13:12:47,980 -INFO -Loading LLM from Groq.........
+2026-06-29 13:12:48,580 -INFO -LLM loaded successfully from groq....
+2026-06-29 13:12:48,580 -INFO -Successfully created the QA chain
+2026-06-29 13:12:49,971 -INFO -HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-29 13:12:49,979 -INFO -127.0.0.1 - - [29/Jun/2026 13:12:49] "[32mPOST / HTTP/1.1[0m" 302 -
+2026-06-29 13:12:49,991 -INFO -127.0.0.1 - - [29/Jun/2026 13:12:49] "GET / HTTP/1.1" 200 -

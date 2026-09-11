@@ -1,0 +1,29 @@
+2026-07-03 19:17:52,271 -INFO -[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.204.68.44:5000
+2026-07-03 19:17:52,271 -INFO -[33mPress CTRL+C to quit[0m
+2026-07-03 19:17:57,920 -INFO -127.0.0.1 - - [03/Jul/2026 19:17:57] "GET / HTTP/1.1" 200 -
+2026-07-03 19:56:28,935 -INFO -[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.204.68.44:5000
+2026-07-03 19:56:28,935 -INFO -[33mPress CTRL+C to quit[0m
+2026-07-03 19:57:09,250 -INFO -127.0.0.1 - - [03/Jul/2026 19:57:09] "GET / HTTP/1.1" 200 -
+2026-07-03 21:50:30,040 -INFO -Loading vectorstore for context
+2026-07-03 21:50:30,040 -INFO -intializing ur huggingface model..
+2026-07-03 21:50:35,037 -INFO -Use pytorch device_name: cpu
+2026-07-03 21:50:35,037 -INFO -Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2026-07-03 21:50:49,109 -INFO -Huggingface embedding model load \u2714\ufe0f\u2714\ufe0f
+2026-07-03 21:50:49,109 -INFO -Loading existing vectorstore..
+2026-07-03 21:50:49,120 -INFO -Loading faiss with AVX2 support.
+2026-07-03 21:50:49,120 -INFO -Could not load library with AVX2 support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_avx2'")
+2026-07-03 21:50:49,120 -INFO -Loading faiss.
+2026-07-03 21:50:49,259 -INFO -Successfully loaded faiss.
+2026-07-03 21:50:49,336 -INFO -Loading LLM from Groq.........
+2026-07-03 21:50:50,599 -INFO -LLM loaded successfully from groq....
+2026-07-03 21:50:50,607 -INFO -Successfully created the QA chain
+2026-07-03 21:50:56,325 -INFO -HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-03 21:50:56,352 -INFO -127.0.0.1 - - [03/Jul/2026 21:50:56] "[32mPOST / HTTP/1.1[0m" 302 -
+2026-07-03 21:50:56,360 -INFO -127.0.0.1 - - [03/Jul/2026 21:50:56] "GET / HTTP/1.1" 200 -
