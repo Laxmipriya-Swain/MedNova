@@ -9,4 +9,4 @@ python-dotenv
 faiss-cpu 
 sentence-transformers == 5.1.1
 gunicorn
-PYTHON_VERSION == 3.11.9
+
