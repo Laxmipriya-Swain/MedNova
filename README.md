@@ -1,4 +1,3 @@
-# MedNova
 # MedNova 🩺
 
 MedNova is a medical question-answering chatbot built with **Retrieval-Augmented Generation (RAG)**. It answers medical questions using content extracted from *The Gale Encyclopedia of Medicine*, combining semantic search over a FAISS vector store with a Groq-hosted LLM, and serves the chatbot through a simple Flask web interface.
