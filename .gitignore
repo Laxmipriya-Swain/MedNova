@@ -3,4 +3,3 @@ __pycache__/
 *.pyc
 Medical_book.egg-info/
 logs/
-vectorstore/

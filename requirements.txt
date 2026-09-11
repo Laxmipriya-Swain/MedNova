@@ -6,7 +6,6 @@ huggingface_hub
 flask
 pypdf
 python-dotenv
-faiss-cpu 
+faiss-cpu
 sentence-transformers == 5.1.1
 gunicorn
-
