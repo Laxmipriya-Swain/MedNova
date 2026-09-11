@@ -1,0 +1,19 @@
+2026-06-28 12:24:13,484 -INFO -Making the vectorstore...
+2026-06-28 12:24:13,485 -INFO -Loading file from data/
+2026-06-28 12:24:25,781 -INFO -Successfully fetched 759 documents
+2026-06-28 12:24:25,782 -INFO -Splitting 759 documents into chunks
+2026-06-28 12:24:25,891 -INFO -Generated 7080 text_chunks
+2026-06-28 12:24:25,891 -INFO -Generating your new vectorstore...
+2026-06-28 12:24:25,891 -INFO -intializing ur huggingface model..
+2026-06-28 12:24:30,113 -INFO -Use pytorch device_name: cpu
+2026-06-28 12:24:30,113 -INFO -Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2026-06-28 12:24:36,733 -WARNING -Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2026-06-28 12:25:03,044 -INFO -Huggingface embedding model load \u2714\ufe0f\u2714\ufe0f
+2026-06-28 12:27:24,101 -INFO -Loading faiss with AVX2 support.
+2026-06-28 12:27:24,102 -INFO -Could not load library with AVX2 support due to:
+ModuleNotFoundError("No module named 'faiss.swigfaiss_avx2'")
+2026-06-28 12:27:24,102 -INFO -Loading faiss.
+2026-06-28 12:27:24,180 -INFO -Successfully loaded faiss.
+2026-06-28 12:27:24,362 -INFO -Saving ur vectorstore...
+2026-06-28 12:27:24,398 -INFO -vectorstore save successfully....
+2026-06-28 12:27:24,402 -INFO -Vectorstore created.........

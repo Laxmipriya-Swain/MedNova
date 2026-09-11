@@ -452,6 +452,7 @@
     .glow-purple{ text-shadow: 0 0 20px rgba(124,58,237,0.4); }
 
     /* ===== COPY & TTS BUTTONS on AI bubbles ===== */
+<<<<<<< HEAD
     .bubble-group {
       display: flex; flex-direction: column; gap: 4px; max-width: 78%;
     }
@@ -468,6 +469,19 @@
       border-radius: 20px; padding: 2px 10px;
       font-size: 0.7rem; color: var(--text-muted);
       cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+=======
+    .bubble-actions {
+      display: flex; gap: 6px; margin-top: 10px;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .msg-wrap:hover .bubble-actions { opacity: 1; }
+    .action-btn {
+      background: var(--bg-sidebar-h);
+      border: 1px solid var(--border);
+      border-radius: 6px; padding: 3px 9px;
+      font-size: 0.72rem; color: var(--text-secondary);
+      cursor: pointer; display: flex; align-items: center; gap: 4px;
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
       transition: all 0.18s; font-family: 'Inter', sans-serif;
     }
     .action-btn:hover { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
@@ -651,6 +665,7 @@
             <div class="avatar {{ 'user-avatar' if msg.role == 'user' else 'ai-avatar' }}" aria-hidden="true">
               {{ '👤' if msg.role == 'user' else '🤖' }}
             </div>
+<<<<<<< HEAD
             {% if msg.role == 'assistant' %}
               <div class="bubble-group">
                 <div class="bubble ai-bubble">
@@ -668,6 +683,20 @@
                 {{ msg.content | safe | nl2br }}
               </div>
             {% endif %}
+=======
+            <div class="bubble {{ 'user-bubble' if msg.role == 'user' else 'ai-bubble' }}">
+              <div class="bubble-label">{{ 'You' if msg.role == 'user' else 'MedNova' }}</div>
+              {% if msg.role == 'assistant' %}
+                <div class="md-content">{{ msg.content | safe | nl2br }}</div>
+                <div class="bubble-actions">
+                  <button class="action-btn" onclick="copyBubble(this)" title="Copy response">📋 Copy</button>
+                  <button class="action-btn" onclick="speakBubble(this)" title="Read aloud">🔊 Listen</button>
+                </div>
+              {% else %}
+                {{ msg.content | safe | nl2br }}
+              {% endif %}
+            </div>
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
           </div>
           {% endfor %}
         {% else %}
@@ -755,6 +784,7 @@
           saveSessionTitle(currentSessionId, text.substring(0, 50));
         }
       }
+<<<<<<< HEAD
       // Also capture all rendered messages into localStorage
       const domMsgs = [];
       document.querySelectorAll('.msg-wrap').forEach(wrap => {
@@ -781,6 +811,11 @@
     }
 
 
+=======
+      renderHistory();
+    }
+
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
     /* ---- localStorage helpers ---- */
     function loadHistory() {
       try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
@@ -807,6 +842,7 @@
       }
     }
 
+<<<<<<< HEAD
     /* ---- Save & load per-session messages in localStorage ---- */
     const MSGS_PREFIX = 'mednova_msgs_';
     function saveSessionMessages(id, msgs) {
@@ -824,6 +860,8 @@
     // Track current session messages in memory
     let currentMessages = loadSessionMessages(currentSessionId);
 
+=======
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
     /* ---- Render sidebar history ---- */
     function renderHistory(filter = '') {
       const container = document.getElementById('history-list');
@@ -872,6 +910,7 @@
     function filterHistory(val) { renderHistory(val); }
 
     function loadSession(id) {
+<<<<<<< HEAD
       if (id === currentSessionId) return;
 
       const msgs = loadSessionMessages(id);
@@ -902,12 +941,21 @@
 
       renderHistory();
       scrollToBottom();
+=======
+      // For now just refresh (session data is server-side)
+      // In a future enhancement you can restore via AJAX
+      if (id === currentSessionId) return;
+      alert('💡 Tip: Each session stores its messages server-side. Start a new chat or switch tabs for a fresh session. History titles are saved locally.');
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
     }
 
     function deleteSession(event, id) {
       event.stopPropagation();
       history = history.filter(h => h.id !== id);
+<<<<<<< HEAD
       deleteSessionMessages(id);
+=======
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
       saveHistory();
       renderHistory(document.getElementById('search-input').value);
     }
@@ -924,7 +972,10 @@
     function clearCurrentChat() {
       if (!confirm('Clear this conversation?')) return;
       history = history.filter(h => h.id !== currentSessionId);
+<<<<<<< HEAD
       deleteSessionMessages(currentSessionId);
+=======
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
       saveHistory();
       window.location.href = '/clear';
     }
@@ -954,10 +1005,13 @@
       saveSessionTitle(currentSessionId, text.substring(0, 50));
       renderHistory();
 
+<<<<<<< HEAD
       // Save user message to localStorage
       currentMessages.push({ role: 'user', content: text });
       saveSessionMessages(currentSessionId, currentMessages);
 
+=======
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
       // POST to backend
       const formData = new FormData();
       formData.append('prompt', text);
@@ -977,9 +1031,12 @@
             const content = lastAI.innerHTML
               .replace(/<div class="bubble-label">.*?<\/div>/i, '').trim();
             appendBubble('ai', content, true);
+<<<<<<< HEAD
             // Save AI response to localStorage
             currentMessages.push({ role: 'ai', content: content });
             saveSessionMessages(currentSessionId, currentMessages);
+=======
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
           } else {
             // Check for error
             const err = doc.querySelector('.error-bubble');
@@ -1016,12 +1073,24 @@
       const label = document.createElement('div');
       label.className = 'bubble-label';
       label.textContent = role === 'user' ? 'You' : 'MedNova';
+<<<<<<< HEAD
       bubble.appendChild(label);
 
       if (role === 'ai') {
         const mdDiv = document.createElement('div');
         mdDiv.className = 'md-content';
         if (isHTML) {
+=======
+
+      bubble.appendChild(label);
+
+      if (role === 'ai') {
+        // ---- Markdown rendering ----
+        const mdDiv = document.createElement('div');
+        mdDiv.className = 'md-content';
+        if (isHTML) {
+          // Strip existing HTML tags to get plain text for marked
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
           const tmp = document.createElement('div');
           tmp.innerHTML = content;
           mdDiv.innerHTML = typeof marked !== 'undefined'
@@ -1029,6 +1098,7 @@
             : content;
         } else {
           mdDiv.innerHTML = typeof marked !== 'undefined'
+<<<<<<< HEAD
             ? marked.parse(content) : content;
         }
         bubble.appendChild(mdDiv);
@@ -1051,17 +1121,42 @@
         box.insertBefore(wrap, typing);
         wrap.appendChild(avatar);
         wrap.appendChild(group);
+=======
+            ? marked.parse(content)
+            : content;
+        }
+        bubble.appendChild(mdDiv);
+
+        // ---- Action buttons ----
+        const actions = document.createElement('div');
+        actions.className = 'bubble-actions';
+        actions.innerHTML = `
+          <button class="action-btn" onclick="copyBubble(this)" title="Copy response">📋 Copy</button>
+          <button class="action-btn" onclick="speakBubble(this)" title="Read aloud">🔊 Listen</button>
+        `;
+        bubble.appendChild(actions);
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
       } else {
         const textNode = document.createElement('div');
         if (isHTML) { textNode.innerHTML = content; }
         else { textNode.textContent = content; }
         bubble.appendChild(textNode);
+<<<<<<< HEAD
 
         const typing = document.getElementById('typing');
         box.insertBefore(wrap, typing);
         wrap.appendChild(avatar);
         wrap.appendChild(bubble);
       }
+=======
+      }
+
+      // Typing inserts before the typing indicator
+      const typing = document.getElementById('typing');
+      box.insertBefore(wrap, typing);
+      wrap.appendChild(avatar);
+      wrap.appendChild(bubble);
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
     }
 
     function appendError(msg) {
@@ -1130,7 +1225,11 @@
        FEATURE 2: Copy response button
     ============================================================ */
     function copyBubble(btn) {
+<<<<<<< HEAD
       const mdDiv = btn.closest('.bubble-group').querySelector('.md-content');
+=======
+      const mdDiv = btn.closest('.bubble').querySelector('.md-content');
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
       const text = mdDiv ? (mdDiv.innerText || mdDiv.textContent) : '';
       navigator.clipboard.writeText(text.trim()).then(() => {
         const orig = btn.innerHTML;
@@ -1168,7 +1267,11 @@
         b.innerHTML = '🔊 Listen'; b.classList.remove('speaking');
       });
 
+<<<<<<< HEAD
       const mdDiv = btn.closest('.bubble-group').querySelector('.md-content');
+=======
+      const mdDiv = btn.closest('.bubble').querySelector('.md-content');
+>>>>>>> 5c838f942f4163bfe41f9c9069742f3733b2dada
       const text = mdDiv ? (mdDiv.innerText || mdDiv.textContent).trim() : '';
       if (!text) return;
 
