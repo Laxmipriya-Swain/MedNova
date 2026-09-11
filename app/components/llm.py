@@ -5,7 +5,7 @@ from app.common.custom_exception import CustomException
 
 logger = get_logger(__name__)
 
-def load_llm(model_name : str = "openai/gpt-oss-120b",groq_api_key : str = GROQ_API_KEY):
+def load_llm(model_name : str = "openai/gpt-oss-20b",groq_api_key : str = GROQ_API_KEY):
     try:
         logger.info("Loading LLM from Groq.........")
         llm = ChatGroq(
