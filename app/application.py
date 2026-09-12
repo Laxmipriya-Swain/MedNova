@@ -13,9 +13,7 @@ def nl2br(value):
 
 app.jinja_env.filters['nl2br'] = nl2br
 
-# ✅ Lazy-load QA chain: loaded on first request, NOT at startup.
-# This prevents OOM crashes on Render's 512MB free tier — gunicorn
-# binds its port immediately, then the model loads on first user query.
+# Lazy-load QA chain on first request to prevent OOM on Render free tier
 _qa_chain = None
 _qa_chain_loaded = False
 
@@ -45,10 +43,10 @@ def index():
                 if qa_chain is None:
                     raise Exception("QA CHAIN could not be created (llm or vectorstore issue)")
 
-                result = qa_chain.invoke(user_input)
+                    result = qa_chain.invoke(user_input)
 
-                messages.append({"role": "assistant", "content": result})
-                session["messages"] = messages
+            messages.append({"role": "assistant", "content": result})
+            session["messages"] = messages
             except Exception as e:
                 error_msg = f"Error: {str(e)}"
                 return render_template(

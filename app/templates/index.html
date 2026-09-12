@@ -923,74 +923,92 @@
     }
 
     /* ---- Send message with AJAX ---- */
-    function sendMessage(event) {
-      event.preventDefault();
-      const input = document.getElementById('prompt-input');
-      const text = input.value.trim();
-      if (!text) return;
+       // Replace the existing sendMessage function
 
-      // Hide welcome screen
-      const welcome = document.getElementById('welcome');
-      if (welcome) welcome.remove();
+function sendMessage(event) {
+  event.preventDefault();
 
-      // Append user bubble immediately
-      appendBubble('user', text);
-      input.value = '';
-      autoResize(input);
-      document.getElementById('send-btn').disabled = true;
+  const input = document.getElementById('prompt-input');
+  const text = input.value.trim();
+  if (!text) return;
 
-      // Show typing indicator
-      document.getElementById('typing').style.display = 'flex';
-      scrollToBottom();
+  document.getElementById('welcome')?.remove();
+  appendBubble('user', text);
+  input.value = '';
+  autoResize(input);
 
-      // Save to history (first message becomes title)
-      saveSessionTitle(currentSessionId, text.substring(0, 50));
-      renderHistory();
+  const sendBtn = document.getElementById('send-btn');
+  const typing = document.getElementById('typing');
+  sendBtn.disabled = true;
+  typing.style.display = 'flex';
+  scrollToBottom();
 
-      // Save user message to localStorage
-      currentMessages.push({ role: 'user', content: text });
+  saveSessionTitle(currentSessionId, text.substring(0, 50));
+  renderHistory();
+
+  currentMessages.push({ role: 'user', content: text });
+  saveSessionMessages(currentSessionId, currentMessages);
+
+  const formData = new FormData();
+  formData.append('prompt', text);
+
+  fetch('/', {
+    method: 'POST',
+    body: formData,
+    credentials: 'same-origin',
+    headers: { Accept: 'application/json, text/html' }
+  })
+    .then(async response => {
+      const raw = await response.text();
+
+      if (!response.ok) {
+        throw new Error(`Request failed (${response.status})`);
+      }
+
+      try {
+        const data = JSON.parse(raw);
+        const answer =
+        data.response ||
+        data.answer ||
+        data.reply ||
+        data.message ||
+        data.content;
+ 
+        if (answer) return String(answer);
+      } catch (_) {
+        // Backend returned HTML.
+      }
+
+      const doc = new DOMParser().parseFromString(raw, 'text/html');
+      const bubbles = doc.querySelectorAll('.ai-bubble');
+
+      if (bubbles.length) {
+        const last = bubbles[bubbles.length - 1].cloneNode(true);
+        last.querySelector('.bubble-label')?.remove();
+        return last.innerHTML.trim();
+      }
+
+      const error = doc.querySelector('.error-bubble');
+      throw new Error(error?.textContent.trim() || 'No response received.');
+    })
+    .then(answer => {
+      typing.style.display = 'none';
+      sendBtn.disabled = false;
+
+      appendBubble('ai', answer, true);
+      currentMessages.push({ role: 'ai', content: answer });
       saveSessionMessages(currentSessionId, currentMessages);
-
-      // POST to backend
-      const formData = new FormData();
-      formData.append('prompt', text);
-
-      fetch('/', { method: 'POST', body: formData })
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById('typing').style.display = 'none';
-          document.getElementById('send-btn').disabled = false;
-
-          // Parse the response page to get last assistant message
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, 'text/html');
-          const bubbles = doc.querySelectorAll('.ai-bubble');
-          if (bubbles.length > 0) {
-            const lastAI = bubbles[bubbles.length - 1];
-            const content = lastAI.innerHTML
-              .replace(/<div class="bubble-label">.*?<\/div>/i, '').trim();
-            appendBubble('ai', content, true);
-            // Save AI response to localStorage
-            currentMessages.push({ role: 'ai', content: content });
-            saveSessionMessages(currentSessionId, currentMessages);
-          } else {
-            // Check for error
-            const err = doc.querySelector('.error-bubble');
-            if (err) {
-              appendError(err.textContent.trim());
-            } else {
-              appendBubble('ai', '⚠️ No response received. Please try again.');
-            }
-          }
-          scrollToBottom();
-        })
-        .catch(err => {
-          document.getElementById('typing').style.display = 'none';
-          document.getElementById('send-btn').disabled = false;
-          appendError('Network error: ' + err.message);
-          scrollToBottom();
-        });
-    }
+      scrollToBottom();
+    })
+    .catch(error => {
+      typing.style.display = 'none';
+      sendBtn.disabled = false;
+      appendError(error.message || 'Network error. Please try again.');
+      scrollToBottom();
+    });
+  }
+    
+      
 
     function appendBubble(role, content, isHTML = false) {
       const box = document.getElementById('chat-box');
@@ -1172,5 +1190,6 @@
       window.speechSynthesis.speak(utter);
     }
   </script>
+  {%- if error %}<div class="error-bubble" style="display:none">{{ error }}</div>{%- endif %}
 </body>
 </html>
