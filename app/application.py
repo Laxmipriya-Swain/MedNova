@@ -45,8 +45,7 @@ def index():
                 if qa_chain is None:
                     raise Exception("QA CHAIN could not be created (llm or vectorstore issue)")
 
-                response = qa_chain.invoke({"input": user_input})
-                result = response.get("answer", "No response")
+                result = qa_chain.invoke(user_input)
 
                 messages.append({"role": "assistant", "content": result})
                 session["messages"] = messages

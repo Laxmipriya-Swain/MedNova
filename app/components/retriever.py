@@ -3,12 +3,11 @@ from app.components.vector_store import load_vector_store
 from app.common.logger import get_logger
 from app.common.custom_exception import CustomException
 from langchain_core.prompts import ChatPromptTemplate
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains import create_retrieval_chain
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
 
 logger = get_logger(__name__)
 
-# ✅ ChatPromptTemplate required for ChatGroq (chat model)
 PROMPT = ChatPromptTemplate.from_template("""
 Answer the following medical question in 2-3 lines maximum using only the information provided in the context.
 
@@ -20,6 +19,10 @@ Question:
 
 Answer:
 """)
+
+
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
 
 
 def create_qa_chain():
@@ -35,11 +38,16 @@ def create_qa_chain():
         if llm is None:
             raise CustomException("LLM not loaded...")
 
-        # ✅ LCEL chain compatible with langchain 0.3.x + ChatGroq
-        combine_chain = create_stuff_documents_chain(llm, PROMPT)
-        qa_chain = create_retrieval_chain(
-            db.as_retriever(search_kwargs={'k': 1}),
-            combine_chain
+        retriever = db.as_retriever(search_kwargs={'k': 1})
+
+        # ✅ Direct LCEL chain — no create_retrieval_chain wrapper
+        # Input: plain string (user question)
+        # Output: plain string (answer)
+        qa_chain = (
+            {"context": retriever | format_docs, "input": RunnablePassthrough()}
+            | PROMPT
+            | llm
+            | StrOutputParser()
         )
 
         logger.info("Successfully created the QA chain")
