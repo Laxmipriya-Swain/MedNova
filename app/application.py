@@ -43,10 +43,10 @@ def index():
                 if qa_chain is None:
                     raise Exception("QA CHAIN could not be created (llm or vectorstore issue)")
 
-                    result = qa_chain.invoke(user_input)
+                result = qa_chain.invoke(user_input)
 
-            messages.append({"role": "assistant", "content": result})
-            session["messages"] = messages
+                messages.append({"role": "assistant", "content": result})
+                session["messages"] = messages
             except Exception as e:
                 error_msg = f"Error: {str(e)}"
                 return render_template(
@@ -56,6 +56,7 @@ def index():
                 )
 
         return redirect(url_for("index"))
+
     return render_template("index.html", messages=session.get("messages", []))
 
 @app.route("/clear")
